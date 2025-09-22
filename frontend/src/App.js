@@ -1,19 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useState } from 'react';
+import Dashboard from './Dashboard';
+import Submit from './Submit';
+import Results from './Results';
+import Recommendation from './Recommendation';
+import DriftMonitor from './DriftMonitor'; // New import
 
 function App() {
-  const [message, setMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/hello")
-      .then(res => res.json())
-      .then(data => setMessage(data.message))
-      .catch(err => console.error(err));
-  }, []);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
-      <h1>React + Flask Boilerplate</h1>
-      <p>{message}</p>
+      {currentPage === 'dashboard' && <Dashboard onPageChange={handlePageChange} />}
+      {currentPage === 'submit' && <Submit onPageChange={handlePageChange} />}
+      {currentPage === 'results' && <Results onPageChange={handlePageChange} />}
+      {currentPage === 'recommendation' && <Recommendation onPageChange={handlePageChange} />}
+      {currentPage === 'driftmonitor' && <DriftMonitor onPageChange={handlePageChange} />} {/* New route */}
     </div>
   );
 }
